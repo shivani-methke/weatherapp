@@ -89,7 +89,7 @@ function Forecast({ weather }) {
           <ReactAnimatedWeather icon="WIND" size="40"/>
           <div>
             <p className="wind">{data.wind.speed}m/s</p>
-            <p>Wind speed</p>
+            <p>Wind</p>
           </div>
         </div>
         <div className="col">
