@@ -34,7 +34,7 @@ const SignUp = () => {
 
   return (
     <div>
-      <h2>Sign Up</h2>
+      <h2 className="Login1">Sign Up Here</h2>
       <form onSubmit={handleSignUp}>
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
@@ -46,4 +46,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
