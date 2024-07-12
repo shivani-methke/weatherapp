@@ -1,7 +1,7 @@
-/* Google Fonts Import */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* Base styles */
+
 body {
   background-image: url('http://www.autodatz.com/wp-content/uploads/2017/05/Old-Car-Wallpapers-Hd-36-with-Old-Car-Wallpapers-Hd.jpg');
   background-size: cover;
@@ -26,9 +26,9 @@ body {
 }
 
 .App:hover {
-  background-color: #e0e0e0; /* Lighten the background on hover */
-  transform: translateY(-5px); /* Lift the box shadow and content */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Enhance the box shadow on hover */
+  background-color: #e0e0e0;
+  transform: translateY(-5px); 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); 
 }
 
 .SearchEngine {
@@ -79,7 +79,7 @@ body {
   color: #f06789;
 }
 
-/* Error message */
+
 .error-message {
   display: block;
   text-align: center;
@@ -335,7 +335,7 @@ body {
 
 nav {
   display: flex;
-  justify-content: flex-end; /* Aligns the buttons to the right */
+  justify-content: flex-end; 
   align-items: center;
 }
 
@@ -386,8 +386,8 @@ p {
 }
 
 #UserName {
-  --b: 3px;   /* border thickness */
-  --s: .45em; /* size of the corner */
+  --b: 3px;  
+  --s: .45em; 
   --color: #373B44;
   
   padding: calc(.5em + var(--s)) calc(.9em + var(--s));
