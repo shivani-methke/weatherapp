@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import SearchEngine from "./SearchEngine";
 import Forecast from "./Forecast";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import ProtectedRoute from "../ProtectedRoute";
 import { auth } from "./firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import "../styles.css";
@@ -57,7 +58,7 @@ function App() {
       setQuery("");
       setWeather({ ...weather, loading: true });
       const apiKey = "b03a640e5ef6980o4da35b006t5f2942";
-      const url = https://api.shecodes.io/weather/v1/current?query=${query}&key=${apiKey};
+      const url = `https://api.shecodes.io/weather/v1/current?query=${query}&key=${apiKey}`;
 
       await axios
         .get(url)
@@ -76,7 +77,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       const apiKey = "b03a640e5ef6980o4da35b006t5f2942";
-      const url = https://api.shecodes.io/weather/v1/current?query=Rabat&key=${apiKey};
+      const url = `https://api.shecodes.io/weather/v1/current?query=Rabat&key=${apiKey}`;
 
       try {
         const response = await axios.get(url);
@@ -115,47 +116,57 @@ function App() {
       });
   };
 
+  const Header = () => {
+    const location = useLocation();
+    return (
+      <header>
+        <h1 id="Logo1">Weather App</h1>
+        <nav>
+          {location.pathname !== "/login" && !user && <Link to="/login" className="button-34">Login</Link>}
+          {location.pathname !== "/signup" && !user && <Link to="/signup" className="button-34">Sign Up</Link>}
+          {user && <button className="button-34" onClick={handleLogout}>Logout</button>}
+        </nav>
+        {user && <p id="UserName">Welcome, {user.email.split('@')[0]}</p>}
+      </header>
+    );
+  };
+
   return (
     <Router>
       <div className="App">
-        <header>
-          <h1>Weather App</h1>
-          <nav>
-            <Link to="/">Home</Link>
-            {!user && <Link to="/login">Login</Link>}
-            {!user && <Link to="/signup">Sign Up</Link>}
-            {user && <button onClick={handleLogout}>Logout</button>}
-          </nav>
-          {user && <p id="UserName">Welcome, {user.email.split('@')[0]}</p>}
-        </header>
-
+        <Header />
         <Routes>
-          <Route path="/" element={
-            <>
-              <SearchEngine query={query} setQuery={setQuery} search={search} />
-              {weather.loading && (
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute>
                 <>
-                  <br />
-                  <br />
-                  <h4>Searching..</h4>
+                  <SearchEngine query={query} setQuery={setQuery} search={search} />
+                  {weather.loading && (
+                    <>
+                      <br />
+                      <br />
+                      <h4>Searching..</h4>
+                    </>
+                  )}
+                  {weather.error && (
+                    <>
+                      <br />
+                      <br />
+                      <span className="error-message">
+                        <span style={{ fontFamily: "font" }}>
+                          Sorry city not found, please try again.
+                        </span>
+                      </span>
+                    </>
+                  )}
+                  {weather && weather.data && weather.data.condition && (
+                    <Forecast weather={weather} toDate={toDate} />
+                  )}
                 </>
-              )}
-              {weather.error && (
-                <>
-                  <br />
-                  <br />
-                  <span className="error-message">
-                    <span style={{ fontFamily: "font" }}>
-                      Sorry city not found, please try again.
-                    </span>
-                  </span>
-                </>
-              )}
-              {weather && weather.data && weather.data.condition && (
-                <Forecast weather={weather} toDate={toDate} />
-              )}
-            </>
-          } />
+              </ProtectedRoute>
+            } 
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
